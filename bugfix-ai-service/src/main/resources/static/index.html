@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BugFixAi - Advanced Bug Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #e4e4e7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(88, 166, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .app-container {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 3rem 2rem;
+        }
+
+        .container {
+            max-width: 1680px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            font-size: 1.125rem;
+            color: #9ca3af;
+            font-weight: 400;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: minmax(420px, 520px) 1fr;
+            gap: 2.75rem;
+            align-items: start;
+        }
+
+        .content-grid.centered {
+            grid-template-columns: minmax(420px, 520px);
+            justify-content: center;
+        }
+
+        .card {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(75, 85, 99, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-header {
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.1) 0%, rgba(167, 139, 250, 0.1) 100%);
+            border-bottom: 1px solid rgba(75, 85, 99, 0.3);
+        }
+
+        .card-header h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #f3f4f6;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-icon {
+            width: 24px;
+            height: 24px;
+            color: #60a5fa;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .input-card {
+            transform: scale(1.03);
+            transform-origin: top center;
+        }
+
+        .form-group {
+            margin-bottom: 1.75rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #f3f4f6;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .label-optional {
+            color: #9ca3af;
+            font-weight: 400;
+            font-size: 0.85rem;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(75, 85, 99, 0.5);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            color: #e4e4e7;
+            font-family: "Monaco", "Menlo", "Courier New", monospace;
+            transition: all 0.2s;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+            background: rgba(31, 41, 55, 1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 240px;
+            line-height: 1.7;
+            overflow: hidden;
+        }
+
+        textarea::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+
+        textarea {
+            scrollbar-width: none;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #6b7280;
+        }
+
+        .analyze-btn {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.4);
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.5);
+        }
+
+        .analyze-btn:active {
+            transform: translateY(0);
+        }
+
+        .results-container {
+            display: none;
+        }
+
+        .results-container.show {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-card {
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .root-cause-card,
+        .fix-card {
+            height: auto;
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid rgba(75, 85, 99, 0.3);
+        }
+
+        .result-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .result-title h3 {
+            color: #f3f4f6;
+            font-size: 1.125rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .result-content {
+            background: rgba(31, 41, 55, 0.6);
+            padding: 1.75rem;
+            border-radius: 12px;
+            border-left: 4px solid;
+            overflow: visible;
+        }
+
+        .root-cause-card .result-content {
+            border-left-color: #ef4444;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(31, 41, 55, 0.6) 100%);
+        }
+
+        .fix-card .result-content {
+            border-left-color: #10b981;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(31, 41, 55, 0.6) 100%);
+        }
+
+        .result-content p {
+            color: #e4e4e7;
+            line-height: 1.85;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .code-block {
+            background: rgba(17, 24, 39, 0.9);
+            border: 1px solid rgba(75, 85, 99, 0.5);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            font-family: "Monaco", "Menlo", "Courier New", monospace;
+            font-size: 1rem;
+            color: #93c5fd;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            line-height: 1.7;
+            max-height: 360px;
+            overflow-y: auto;
+        }
+
+        .result-content {
+            overflow: visible;
+        }
+
+        .result-card .card-body {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.375rem 0.875rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-analyzing {
+            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+            color: #ffffff;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .status-error {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: #ffffff;
+        }
+
+        .status-ready {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .footer {
+            background: rgba(17, 24, 39, 0.8);
+            border-top: 1px solid rgba(75, 85, 99, 0.3);
+            padding: 2rem;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer p {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                padding: 2rem 1rem;
+            }
+
+            .card-body {
+                padding: 1.5rem;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>BugFixAI</h1>
+                <p>Advanced AI-powered root cause detection and automated fix recommendations</p>
+            </div>
+
+            <div class="content-grid centered" id="contentGrid">
+                <div class="card input-card">
+                    <div class="card-header">
+                        <h2>
+                            <svg class="card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                            </svg>
+                            Input Details
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="bugForm">
+                            <div class="form-group">
+                                <label for="issueKey">
+                                    Issue Identifier <span class="label-optional">(optional)</span>
+                                </label>
+                                <input type="text" id="issueKey" placeholder="e.g., BUG-101, ISSUE-2024">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="bugDescription">Stack Trace / Error Description *</label>
+                                <textarea
+                                        id="bugDescription"
+                                        required
+                                        placeholder="Paste your stack trace or error description here...&#10;&#10;Example:&#10;Exception in thread &quot;main&quot; java.lang.NullPointerException&#10;    at com.example.UserService.getName(UserService.java:42)&#10;    at com.example.Main.main(Main.java:15)"
+                                ></textarea>
+                            </div>
+
+                            <button type="submit" class="analyze-btn">
+                                <span>🔍 Run Analysis</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="results-container" id="resultsContainer">
+                    <div class="card result-card root-cause-card">
+                        <div class="card-header">
+                            <div class="result-header">
+                                <div class="result-title">
+                                    <svg class="card-icon" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                                    </svg>
+                                    <h3>ROOT CAUSE ANALYSIS</h3>
+                                </div>
+                                <span class="status-badge status-ready" id="statusBadge">
+                                    <span class="status-dot"></span>
+                                    <span>READY</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="result-content">
+                                <p id="rootCause">Run analysis to detect the root cause of your bug</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card result-card fix-card">
+                        <div class="card-header">
+                            <div class="result-header">
+                                <div class="result-title">
+                                    <svg class="card-icon" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                                    </svg>
+                                    <h3>RECOMMENDED FIX</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="result-content">
+                                <p id="recommendedFix">Run analysis to see detailed fix recommendations</p>
+                                <div class="code-block" id="codeExample" style="display: none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 BugFixAI. Advanced bug analysis and resolution platform.</p>
+    </footer>
+</div>
+
+<script>
+    const form = document.getElementById("bugForm");
+    const resultsContainer = document.getElementById("resultsContainer");
+    const contentGrid = document.getElementById("contentGrid");
+    const rootCause = document.getElementById("rootCause");
+    const recommendedFix = document.getElementById("recommendedFix");
+    const codeExample = document.getElementById("codeExample");
+    const statusBadge = document.getElementById("statusBadge");
+
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const description = document.getElementById("bugDescription").value.trim();
+        if (!description) {
+            return;
+        }
+
+        analyzeBug(description);
+    });
+
+    function setStatus(state, text) {
+        statusBadge.className = "status-badge " + state;
+        statusBadge.innerHTML = `<span class="status-dot"></span><span>${text}</span>`;
+    }
+
+    async function analyzeBug(description) {
+        resultsContainer.classList.add("show");
+        contentGrid.classList.remove("centered");
+        setStatus("status-analyzing", "ANALYZING");
+        rootCause.textContent = "Analyzing your error...";
+        recommendedFix.textContent = "Please wait while we process your request...";
+        codeExample.style.display = "none";
+        codeExample.textContent = "";
+
+        resultsContainer.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+        try {
+            const response = await fetch("/api/analyze", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    bugDescription: description
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error("API failed with status " + response.status);
+            }
+
+            const data = await response.json();
+
+            rootCause.textContent = data.rootCause || "No root cause analysis available";
+            recommendedFix.textContent = data.fixExplanation || "No fix recommendation available";
+
+            if (data.codeSnippet) {
+                codeExample.style.display = "block";
+                codeExample.textContent = data.codeSnippet;
+            }
+
+            setStatus("status-ready", "COMPLETE");
+        } catch (err) {
+            rootCause.textContent = "Error analyzing bug. Please try again.";
+            recommendedFix.textContent = err.message || "An unexpected error occurred";
+            setStatus("status-error", "ERROR");
+        }
+    }
+</script>
+</body>
+</html>
