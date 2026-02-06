@@ -200,12 +200,5 @@ Computer Science Engineer | Backend Developer | AI Enthusiast
  GitHub: [https://github.com/](https://github.com/)<your-username>
  Portfolio: [https://piyushfunde-portfolio.vercel.app/](https://piyushfunde-portfolio.vercel.app/)
 
----
 
-##  If you like this project
 
-Give it a ⭐ on GitHub and feel free to fork or contribute!
-
----
-
-> *"Debugging is twice as hard as writing the code in the first place. BugFix AI makes it easier."*
