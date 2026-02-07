@@ -34,9 +34,6 @@ public class ApiAnalyzeController {
             AiBugAnalysisResponse errorResponse = new AiBugAnalysisResponse();
             errorResponse.setRootCause("Error analyzing bug");
             errorResponse.setFixExplanation(e.getMessage());
-            if (e.getMessage() != null && e.getMessage().toLowerCase().contains("rate limit")) {
-                return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(errorResponse);
-            }
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }

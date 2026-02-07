@@ -50,3 +50,12 @@ Starting BugfixAiServiceApplication...
 2026-02-07 21:14:51 INFO  [main] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
 2026-02-07 21:14:51 INFO  [main] c.c.b.BugfixAiServiceApplication - Started BugfixAiServiceApplication in 2.415 seconds (process running for 2.829)
 BugfixAiServiceApplication started successfully!
+2026-02-07 21:36:53 INFO  [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-07 21:36:53 INFO  [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-02-07 21:36:53 INFO  [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+Received bug description: ArrayIndexOutOfBoundsException occurs when accessing orderList[5] but list size is only 3
+Analysis response: com.company.bugfixai.dto.AiBugAnalysisResponse@76d748c
+Received bug description: ArrayIndexOutOfBoundsException occurs when accessing orderList[5] but list size is only 3
+Analysis response: com.company.bugfixai.dto.AiBugAnalysisResponse@34f7ef4f
+Received bug description: NullPointerException occurs because user object is not null-checked
+Analysis response: com.company.bugfixai.dto.AiBugAnalysisResponse@6bc64376
