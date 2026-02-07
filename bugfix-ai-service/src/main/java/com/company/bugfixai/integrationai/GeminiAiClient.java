@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -40,26 +41,41 @@ public class GeminiAiClient implements AiClient {
 
     @Override
     public String generate(String prompt) {
-        try {
-            Map<String, Object> payload = Map.of(
-                    "contents", List.of(
-                            Map.of("parts", List.of(
-                                    Map.of("text", prompt)
-                            ))
-                    )
-            );
+        Map<String, Object> payload = Map.of(
+                "contents", List.of(
+                        Map.of("parts", List.of(
+                                Map.of("text", prompt)
+                        ))
+                )
+        );
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
-            ResponseEntity<String> response =
-                    restTemplate.postForEntity(buildUrlWithKey(), entity, String.class);
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(payload, headers);
+        int maxAttempts = 3;
 
-            return extractText(response.getBody());
-        } catch (Exception e) {
-            throw new RuntimeException("Gemini generate failed", e);
+        for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+            try {
+                ResponseEntity<String> response =
+                        restTemplate.postForEntity(buildUrlWithKey(), entity, String.class);
+                return extractText(response.getBody());
+            } catch (HttpClientErrorException.TooManyRequests e) {
+                if (attempt == maxAttempts) {
+                    throw new RuntimeException("Gemini rate limit exceeded. Please try again shortly.", e);
+                }
+                try {
+                    Thread.sleep(1000L * attempt);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    throw new RuntimeException("Gemini retry interrupted.", ie);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Gemini generate failed", e);
+            }
         }
+
+        throw new RuntimeException("Gemini generate failed.");
     }
 
     @Override

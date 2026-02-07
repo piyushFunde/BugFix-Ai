@@ -38,30 +38,15 @@ Starting BugfixAiServiceApplication...
 
  :: Spring Boot ::               (v3.5.10)
 
-2026-02-06 17:35:26 INFO  [main] c.c.b.BugfixAiServiceApplication - Starting BugfixAiServiceApplication using Java 21.0.9 with PID 3308 (C:\Users\funde\OneDrive\Pictures\Documents\Documents\PROGRAMING FILE\SpringProject\bugfix-ai-service\target\classes started by funde in C:\Users\funde\OneDrive\Pictures\Documents\Documents\PROGRAMING FILE\SpringProject\bugfix-ai-service)
-2026-02-06 17:35:26 DEBUG [main] c.c.b.BugfixAiServiceApplication - Running with Spring Boot v3.5.10, Spring v6.2.15
-2026-02-06 17:35:26 INFO  [main] c.c.b.BugfixAiServiceApplication - No active profile set, falling back to 1 default profile: "default"
-2026-02-06 17:35:27 INFO  [main] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2026-02-06 17:35:27 INFO  [main] o.a.catalina.core.StandardService - Starting service [Tomcat]
-2026-02-06 17:35:27 INFO  [main] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.50]
-2026-02-06 17:35:27 INFO  [main] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2026-02-06 17:35:27 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1242 ms
-2026-02-06 17:35:28 INFO  [main] o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
-2026-02-06 17:35:28 INFO  [main] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
-2026-02-06 17:35:28 INFO  [main] c.c.b.BugfixAiServiceApplication - Started BugfixAiServiceApplication in 2.389 seconds (process running for 2.903)
+2026-02-07 21:14:49 INFO  [main] c.c.b.BugfixAiServiceApplication - Starting BugfixAiServiceApplication using Java 21.0.9 with PID 25412 (C:\Users\funde\OneDrive\Pictures\Documents\Documents\PROGRAMING FILE\SpringProject\bugfix-ai-service\target\classes started by funde in C:\Users\funde\OneDrive\Pictures\Documents\Documents\PROGRAMING FILE\SpringProject\bugfix-ai-service)
+2026-02-07 21:14:49 DEBUG [main] c.c.b.BugfixAiServiceApplication - Running with Spring Boot v3.5.10, Spring v6.2.15
+2026-02-07 21:14:49 INFO  [main] c.c.b.BugfixAiServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2026-02-07 21:14:50 INFO  [main] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-02-07 21:14:50 INFO  [main] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-02-07 21:14:50 INFO  [main] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.50]
+2026-02-07 21:14:50 INFO  [main] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-02-07 21:14:50 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1264 ms
+2026-02-07 21:14:50 INFO  [main] o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2026-02-07 21:14:51 INFO  [main] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-02-07 21:14:51 INFO  [main] c.c.b.BugfixAiServiceApplication - Started BugfixAiServiceApplication in 2.415 seconds (process running for 2.829)
 BugfixAiServiceApplication started successfully!
-2026-02-06 17:37:08 INFO  [http-nio-8080-exec-3] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2026-02-06 17:37:08 INFO  [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2026-02-06 17:37:08 INFO  [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-Received bug description: Application crashes when database query returns null result for user profile
-Analysis response: com.company.bugfixai.dto.AiBugAnalysisResponse@1fe62794
-Received bug description: Application hangs because while loop condition never becomes false
-Analysis response: com.company.bugfixai.dto.AiBugAnalysisResponse@3385da3f
-Received bug description: POST /api/login returns 500 error when password is incorrect
-Analysis response: com.company.bugfixai.dto.AiBugAnalysisResponse@2a9519ee
-Received bug description: ConcurrentModificationException occurs when removing items from list inside for-each loop
-Analysis response: com.company.bugfixai.dto.AiBugAnalysisResponse@f7e77cc
-Received bug description: DateTimeParseException occurs when parsing date string "31-02-2024"
-Analysis response: com.company.bugfixai.dto.AiBugAnalysisResponse@478026f
-Received bug description: Race condition occurs when multiple users update account balance simultaneously
-Analysis response: com.company.bugfixai.dto.AiBugAnalysisResponse@115a4425
