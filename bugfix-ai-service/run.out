@@ -59,3 +59,7 @@ Received bug description: ArrayIndexOutOfBoundsException occurs when accessing o
 Analysis response: com.company.bugfixai.dto.AiBugAnalysisResponse@34f7ef4f
 Received bug description: NullPointerException occurs because user object is not null-checked
 Analysis response: com.company.bugfixai.dto.AiBugAnalysisResponse@6bc64376
+Received bug description: NullPointerException occurs because user object is not null-checked
+Analysis response: com.company.bugfixai.dto.AiBugAnalysisResponse@2be4f629
+Received bug description: NullPointerException occurs because user object is not null-checked
+Analysis response: com.company.bugfixai.dto.AiBugAnalysisResponse@3a49f0ff
