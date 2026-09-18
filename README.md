@@ -44,10 +44,9 @@ BugFix AI acts as an **AI-assisted debugging layer** between bug reports and dev
 
 ##  System Architecture
 
-```
 <img width="6023" height="3998" alt="diagram" src="https://github.com/user-attachments/assets/18d78ee5-d366-4ddd-a875-8a39ffc14a6c" />
 
-```
+---
 
 ### Architecture Highlights
 
