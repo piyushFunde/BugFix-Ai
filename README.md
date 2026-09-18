@@ -45,21 +45,8 @@ BugFix AI acts as an **AI-assisted debugging layer** between bug reports and dev
 ##  System Architecture
 
 ```
-Frontend (HTML + JS)
-        |
-        v
-Spring Boot REST API (/api/analyze)
-        |
-        v
-BugAnalysisService
-        |
-        v
-AiClient (Strategy Pattern)
-   |        |        |
-Gemini   OpenAI   Mock Client
-   |
-   v
-Generative AI API
+<img width="6023" height="3998" alt="diagram" src="https://github.com/user-attachments/assets/18d78ee5-d366-4ddd-a875-8a39ffc14a6c" />
+
 ```
 
 ### Architecture Highlights
