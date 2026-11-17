@@ -2,10 +2,10 @@
 
 BugFix AI is an **AI-powered backend analysis tool** designed to automatically analyze software bugs, identify root causes, and suggest reliable fixes using **Generative AI (Google Gemini / OpenAI)**. The system is built to simulate **real-world enterprise debugging workflows**, making it suitable for production demos, portfolios, and interview discussions.
 
-🌐 **Website:** [BugFix-AI](https://bugfix-ai-backend-odli.onrender.com/)
+ **Website:** [BugFix-AI](https://bugfix-ai-backend-odli.onrender.com/)
 
 ---
-#🖼️ Screenshots
+# Screenshots
 <img width="1916" height="821" alt="Screenshot 2026-02-06 213756" src="https://github.com/user-attachments/assets/74518bfc-3aad-411b-be86-664a4986c974" />
 <img width="1887" height="832" alt="Screenshot 2026-02-06 225155" src="https://github.com/user-attachments/assets/9f425c84-9231-4dc4-a318-30eaad487b80" />
 
