@@ -188,9 +188,6 @@ Content-Type: application/json
 **Piyush Funde**
 Computer Science Engineer | Backend Developer | AI Enthusiast
 
- GitHub: [https://github.com/](https://github.com/)<your-username>
- Portfolio: [https://piyushfunde-portfolio.vercel.app/](https://piyushfunde-portfolio.vercel.app/)
-
 
 
 
